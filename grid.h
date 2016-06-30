@@ -2,19 +2,29 @@
 #define GRID_H
 
 #include <vector>
+#include <QObject>
 
-class Grid
+class Grid : public QObject
 {
+
     using CoordType = int;
-    //using CoordPair = std::pair<CoordType, CoordType>;
+
+    private:
+        Q_OBJECT
+
+    signals:
+        hasChanged(Grid* self);
 
     public:
-        Grid(CoordType width = 0, CoordType height = 0, char outOfBoundsValue = 0);
+        Grid(CoordType width = 0, CoordType height = 0, char outOfBoundsValue = 0, QObject* parent = nullptr);
         char getValueAt(CoordType x, CoordType y) const;
         void setNextValueAt(CoordType x, CoordType y, char value);
         void update(); //Swap current and next
 
         void print(); //To "cout"
+
+        CoordType getWidth() const {return width;}
+        CoordType getHeight() const {return height;}
 
         const char outOfBoundsValue = 0;
         template <class GridFiller> void fill(GridFiller func)  //Takes a function convertible to a std::function<void(Grid&, CoordType, CoordType)>
@@ -39,6 +49,14 @@ class Grid
         CoordType height = 0;
         std::vector<char> current;
         std::vector<char> next;
+
+
+
+    public: //Examples filler
+        static void GameOfLifeFiller(Grid& grid, int x, int y);
+
+    public slots:
+        void GameOfLifeStep();
 };
 
 #endif // GRID_H

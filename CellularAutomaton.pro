@@ -1,10 +1,16 @@
 TEMPLATE = app
-CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
+CONFIG += console c++14
+#CONFIG -= app_bundle
+#CONFIG -= qt
+
+QT += widgets gui core
 
 SOURCES += main.cpp \
-    grid.cpp
+    grid.cpp \
+    gameoflifepixmap.cpp \
+    mywindow.cpp
 
 HEADERS += \
-    grid.h
+    grid.h \
+    gameoflifepixmap.h \
+    mywindow.h

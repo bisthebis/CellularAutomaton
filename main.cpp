@@ -1,18 +1,59 @@
 #include <iostream>
 #include "grid.h"
+#include "gameoflifepixmap.h"
 #include <random>
+
+#include <QtWidgets>
+#include <QApplication>
+#include <QTimer>
+#include <QTime>
 
 
 using namespace std;
 
+#include "mywindow.h"
+
 int main(int argc, char *argv[])
 {
-    Grid grille(10, 10);
+    Grid grille(500, 500);
+
+    QApplication app(argc, argv);
+    MyWindow window(nullptr, &grille);
+
+
+    window.show();
+
+
+
+
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, 1);
 
-    auto gridRegularFiller = [](Grid& grid, int x, int y) {
+    auto gridRandomFiller = [&](Grid& grid, int x, int y) {
+        grid.setNextValueAt(x, y, dis(gen));
+
+
+    };
+
+
+
+    QObject::connect(&grille, SIGNAL(hasChanged(Grid*)), &window, SLOT(updateLabel()));
+
+    QPushButton button("Step", &window);
+    button.show();
+
+    QObject::connect(&button, SIGNAL(clicked(bool)), &grille, SLOT(GameOfLifeStep()));
+
+
+    QTimer timer;
+    timer.setInterval(1);
+    QObject::connect(&timer, SIGNAL(timeout()), &grille, SLOT(GameOfLifeStep()));
+    timer.start();
+
+
+
+/*    auto gridRegularFiller = [](Grid& grid, int x, int y) {
         grid.setNextValueAt(x, y, (x+1)*10 + (y+1));
 
 
@@ -22,53 +63,35 @@ int main(int argc, char *argv[])
         grid.setNextValueAt(x, y, 0);
     };
 
-    auto gridRandomFiller = [&](Grid& grid, int x, int y) {
-        grid.setNextValueAt(x, y, dis(gen));
-
-
-    };
 
     auto gridIncrement = [](Grid& grid, int x, int y) {
         grid.setNextValueAt(x, y, grid.getValueAt(x, y)+1);
 
 
-    };
-
-    auto gridGameOfLifeStep = [](Grid& grid, int x, int y) { //Requires every cell to be either 0 or 1 !
-        int numberOfNeigborsAlive = grid.getValueAt(x-1, y-1) +
-                                    grid.getValueAt(x, y-1) +
-                                    grid.getValueAt(x+1, y-1) +
-                                    grid.getValueAt(x-1, y) +
-                                    grid.getValueAt(x+1, y) +
-                                    grid.getValueAt(x-1, y+1) +
-                                    grid.getValueAt(x, y+1) +
-                                    grid.getValueAt(x+1, y+1);
+    };*/
 
 
 
-        if ( (numberOfNeigborsAlive == 3) || ( (grid.getValueAt(x, y) == 1) && (numberOfNeigborsAlive == 2) ) )
-            grid.setNextValueAt(x, y, 1);
-        else
-            grid.setNextValueAt(x, y, 0);
-
-    };
-
-    grille.fill(gridNullFiller);
+    /*grille.fill(gridNullFiller);
     grille.setNextValueAt(1, 0, 1);
     grille.setNextValueAt(2, 1, 1);
     grille.setNextValueAt(0, 2, 1);
     grille.setNextValueAt(1, 2, 1);
     grille.setNextValueAt(2, 2, 1);
-    grille.update();
-    grille.print();
+    grille.update();*/
+
+    grille.fill(gridRandomFiller);
+
+
+    //grille.print();
 
     for (int i = 0; i < 5; ++i)
     {
-        grille.fill(gridGameOfLifeStep);
-        grille.print();
+        grille.fill(Grid::GameOfLifeFiller);
+        //grille.print();
     }
 
 
 
-    return 0;
+    return app.exec();
 }

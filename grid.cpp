@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-Grid::Grid(CoordType width, CoordType height, char outOfBoundsValue) :
+Grid::Grid(CoordType width, CoordType height, char outOfBoundsValue, QObject* parent) :
+    QObject(parent),
     outOfBoundsValue(outOfBoundsValue),
     width(width),
     height(height),
@@ -31,6 +32,7 @@ void Grid::update()
 {
     //current.swap(next);
     current = next;
+    emit hasChanged(this);
 }
 
 void Grid::print()
@@ -44,4 +46,31 @@ void Grid::print()
         std::cout << std::endl;
     }
     std::cout << std::endl;
+}
+
+void Grid::GameOfLifeFiller(Grid& grid, int x, int y)
+{
+    //Requires every cell to be either 0 or 1 !
+            int numberOfNeigborsAlive = grid.getValueAt(x-1, y-1) +
+                                        grid.getValueAt(x, y-1) +
+                                        grid.getValueAt(x+1, y-1) +
+                                        grid.getValueAt(x-1, y) +
+                                        grid.getValueAt(x+1, y) +
+                                        grid.getValueAt(x-1, y+1) +
+                                        grid.getValueAt(x, y+1) +
+                                        grid.getValueAt(x+1, y+1);
+
+
+
+            if ( (numberOfNeigborsAlive == 3) || ( (grid.getValueAt(x, y) == 1) && (numberOfNeigborsAlive == 2) ) )
+                grid.setNextValueAt(x, y, 1);
+            else
+                grid.setNextValueAt(x, y, 0);
+
+
+}
+
+void Grid::GameOfLifeStep()
+{
+    fill(GameOfLifeFiller);
 }
