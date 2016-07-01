@@ -35,6 +35,9 @@ void GameOfLifePixmap::updatePixmap(Grid* src)
 {
     QPainter painter(pixmap.get());
     (pixmap->fill());
+
+
+
     //QBrush white = QBrush(QColor(255, 255, 255));
     QBrush black = QBrush(QColor(0, 0, 0));
     painter.setBrush(black);

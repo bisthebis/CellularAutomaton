@@ -15,7 +15,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    Grid grille(500, 500);
+    Grid grille(250, 250);
 
     QApplication app(argc, argv);
     MyWindow window(nullptr, &grille);
@@ -47,9 +47,10 @@ int main(int argc, char *argv[])
 
 
     QTimer timer;
-    timer.setInterval(1);
+    timer.setInterval(500);
     QObject::connect(&timer, SIGNAL(timeout()), &grille, SLOT(GameOfLifeStep()));
     timer.start();
+
 
 
 
@@ -83,13 +84,6 @@ int main(int argc, char *argv[])
     grille.fill(gridRandomFiller);
 
 
-    //grille.print();
-
-    for (int i = 0; i < 5; ++i)
-    {
-        grille.fill(Grid::GameOfLifeFiller);
-        //grille.print();
-    }
 
 
 
