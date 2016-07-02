@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <QPainter>
+
 Grid::Grid(CoordType width, CoordType height, char outOfBoundsValue, QObject* parent) :
     QObject(parent),
     outOfBoundsValue(outOfBoundsValue),
@@ -73,4 +75,30 @@ void Grid::GameOfLifeFiller(Grid& grid, int x, int y)
 void Grid::GameOfLifeStep()
 {
     fill(GameOfLifeFiller);
+}
+
+void Grid::paint(QPaintDevice* device)
+{
+    if(!device)
+        return;
+
+
+    QPainter painter(device);
+    painter.setBrush(QBrush(QColor(255, 255, 255)));
+
+    painter.setWindow(0, 0, width, height);
+    painter.drawRect(0, 0, width, height);
+
+
+
+    painter.setBrush(QBrush(QColor(0, 0, 0)));
+
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            if (getValueAt(x, y) == 1)
+            painter.drawRect(x * 1, y * 1, 1, 1);
+        }
+    }
 }

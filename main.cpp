@@ -1,6 +1,6 @@
 #include <iostream>
 #include "grid.h"
-#include "gameoflifepixmap.h"
+#include "gridwidget.h"
 #include <random>
 
 #include <QtWidgets>
@@ -11,16 +11,15 @@
 
 using namespace std;
 
-#include "mywindow.h"
 
 int main(int argc, char *argv[])
 {
-    Grid grille(250, 250);
+    Grid* GRID_PTR = new Grid(500, 500);
+    Grid& grille = *GRID_PTR;
 
     QApplication app(argc, argv);
-    MyWindow window(nullptr, &grille);
-
-
+    GridWidget window;
+    window.setGrid(&grille);
     window.show();
 
 
@@ -38,20 +37,21 @@ int main(int argc, char *argv[])
 
 
 
-    QObject::connect(&grille, SIGNAL(hasChanged(Grid*)), &window, SLOT(updateLabel()));
+    QObject::connect(&grille, &Grid::hasChanged, &window, &GridWidget::update);
 
-    QPushButton button("Step", &window);
-    button.show();
 
-    QObject::connect(&button, SIGNAL(clicked(bool)), &grille, SLOT(GameOfLifeStep()));
 
 
     QTimer timer;
     timer.setInterval(500);
-    QObject::connect(&timer, SIGNAL(timeout()), &grille, SLOT(GameOfLifeStep()));
+    QObject::connect(&timer, &QTimer::timeout, &grille, &Grid::GameOfLifeStep);
     timer.start();
 
 
+    QPixmap exported_map(500, 500);
+    QObject::connect(&grille, &Grid::hasChanged, [&](){grille.paint(&exported_map);});
+
+    QObject::connect(qApp, &QApplication::aboutToQuit, [&](){cout << "Leaving ! " << endl; exported_map.save("Grid_export.png", "PNG");});
 
 
 /*    auto gridRegularFiller = [](Grid& grid, int x, int y) {
@@ -60,9 +60,7 @@ int main(int argc, char *argv[])
 
     };
 
-    auto gridNullFiller = [](Grid& grid, int x, int y) {
-        grid.setNextValueAt(x, y, 0);
-    };
+
 
 
     auto gridIncrement = [](Grid& grid, int x, int y) {
@@ -71,15 +69,17 @@ int main(int argc, char *argv[])
 
     };*/
 
+    auto gridNullFiller = [](Grid& grid, int x, int y) {
+        grid.setNextValueAt(x, y, 0);
+    };
 
-
-    /*grille.fill(gridNullFiller);
+    grille.fill(gridNullFiller);
     grille.setNextValueAt(1, 0, 1);
     grille.setNextValueAt(2, 1, 1);
     grille.setNextValueAt(0, 2, 1);
     grille.setNextValueAt(1, 2, 1);
     grille.setNextValueAt(2, 2, 1);
-    grille.update();*/
+    grille.update();
 
     grille.fill(gridRandomFiller);
 

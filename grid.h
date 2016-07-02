@@ -7,8 +7,10 @@
   *     The class provides method "GameOfLifeStep()", which calls "fill" with Conway's Game of Life's rule as argument.
   *     It also provides "print" method, showing the grid using std::cout. It's main purpose is debugging
   *
+  *     Can now paint itself on any QPaintDevice;
+  *
   *     @author Boris Martin
-  *     @version 0.2
+  *     @version 0.3
   *
   */
 
@@ -18,6 +20,8 @@
 
 #include <vector>
 #include <QObject>
+
+class QPaintDevice;
 
 class Grid : public QObject
 {
@@ -37,11 +41,13 @@ class Grid : public QObject
         void update(); //Swap current and next
 
         void print(); //To "cout"
+        void paint(QPaintDevice* device);
 
         CoordType getWidth() const {return width;}
         CoordType getHeight() const {return height;}
+        char getOutOfBoundsValue() const {return outOfBoundsValue;}
 
-        const char outOfBoundsValue = 0;
+
 
         template <class GridFiller> void fill(GridFiller func)  //Takes a function convertible to a std::function<void(Grid&, CoordType, CoordType)>
                                                                 //This function must update (via setNextValueAt) any cell knowing it's coord. It will be called with all possibles coords. Then, update is called.
@@ -61,6 +67,7 @@ class Grid : public QObject
         }
 
     private:
+        const char outOfBoundsValue = 0;
         const CoordType width = 0;
         const CoordType height = 0;
         std::vector<char> current;

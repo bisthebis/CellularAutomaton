@@ -7,10 +7,8 @@ QT += widgets gui core
 
 SOURCES += main.cpp \
     grid.cpp \
-    gameoflifepixmap.cpp \
-    mywindow.cpp
+    gridwidget.cpp
 
 HEADERS += \
     grid.h \
-    gameoflifepixmap.h \
-    mywindow.h
+    gridwidget.h
