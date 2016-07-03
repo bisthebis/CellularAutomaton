@@ -8,20 +8,24 @@
 #include <QTimer>
 #include <QTime>
 
+#include "mywindow.h"
 
 using namespace std;
 
 
 int main(int argc, char *argv[])
 {
+
+
     Grid* GRID_PTR = new Grid(500, 500);
     Grid& grille = *GRID_PTR;
 
     QApplication app(argc, argv);
-    GridWidget window;
-    window.setGrid(&grille);
-    window.show();
+    GridWidget *gridShower = new GridWidget();
+    gridShower->setGrid(&grille);
 
+    MyWindow window(&grille);
+    window.show();
 
 
 

@@ -15,7 +15,6 @@ class Grid;
 
 
 /**
- * @class GridWidget gridwidget.h gridwidget.cpp
  * @brief Widget linked to a Grid meant to be used as a Grid::paint() target.
  *
  * Widget linked to a Grid (owned or not) meant to be a target PaintDevice. Assuming its update slot is linked to hasChanged signal of Grid, it will show its state

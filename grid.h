@@ -100,6 +100,12 @@ class Grid : public QObject
 
 
         /**
+         * @brief Is processing active ?
+         * @return true if active, false otherwise.
+         */
+        bool isActive();
+
+        /**
          * @brief Get width of the grid.
          * @return width of the grid
          */
@@ -172,6 +178,12 @@ class Grid : public QObject
          * This rule is the static public method GameOfLifeFiller()
          */
         void GameOfLifeStep();
+
+        /**
+         * @brief TODO : pause or unpause processing
+         * @param active : true to make it active, false to pause the process
+         */
+        void setActive(bool active = true);
 };
 
 #endif // GRID_H

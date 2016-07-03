@@ -7,8 +7,13 @@ QT += widgets gui core
 
 SOURCES += main.cpp \
     grid.cpp \
-    gridwidget.cpp
+    gridwidget.cpp \
+    mywindow.cpp
 
 HEADERS += \
     grid.h \
-    gridwidget.h
+    gridwidget.h \
+    mywindow.h
+
+FORMS += \
+    mywindow.ui
