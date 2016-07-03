@@ -15,7 +15,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="GridWidget" name="m_Grid" native="true"/>
+    <widget class="GridWidget" name="m_Grid" native="true">
+     <zorder></zorder>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

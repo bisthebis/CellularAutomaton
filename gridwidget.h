@@ -10,8 +10,9 @@
 #define GAMESHOWER_H
 
 #include <QWidget>
+#include <memory>
+#include "grid.h"
 
-class Grid;
 
 
 /**
@@ -36,7 +37,7 @@ class GridWidget : public QWidget
          */
         virtual void paintEvent(QPaintEvent *event);
 
-        Grid* grid;
+        std::unique_ptr<Grid> grid;
     public:
 
         /**

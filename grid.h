@@ -184,7 +184,7 @@ class Grid : public QObject
         void GameOfLifeStep();
 
         /**
-         * @brief TODO : pause or unpause processing
+         * @brief pause or unpause processing
          * @param active : true to make it active, false to pause the process
          */
         void setActive(bool active = true);
