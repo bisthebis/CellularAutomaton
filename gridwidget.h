@@ -1,11 +1,7 @@
 /**
-  *     Widget linked to a Grid (owned or not) meant to be a target PaintDevice. Assuming its update slot is linked to hasChanged signal of Grid, it will show its state
-  *     by calling Grid::paint on itself (in paintEvent).
-  *
-  *     It doesn't require ownership of Grid, but making the grid its child (as a QObject) may be the easiest way to manage this
-  *
-  *     @author Boris Martin
-  *     @version 0.2
+  *     \file gridwidget.h
+  *     \author Boris Martin
+  *     \brief Widget linked to a Grid meant to be used as a Grid::paint() target.
   *
   */
 
@@ -17,18 +13,52 @@
 
 class Grid;
 
+
+/**
+ * @class GridWidget gridwidget.h gridwidget.cpp
+ * @brief Widget linked to a Grid meant to be used as a Grid::paint() target.
+ *
+ * Widget linked to a Grid (owned or not) meant to be a target PaintDevice. Assuming its update slot is linked to hasChanged signal of Grid, it will show its state
+ * by calling Grid::paint on itself (in paintEvent).
+ *
+ * GridWidget takes ownership of its Grid.
+ */
+
 class GridWidget : public QWidget
 {
     private:
         Q_OBJECT
+
+        /**
+         * @brief paints owned Grid on itself
+         * @param event : unused
+         *
+         * Calls Grid::paint() on itself.
+         */
         virtual void paintEvent(QPaintEvent *event);
-    public:
-        explicit GridWidget(QWidget *parent = 0, Grid* grid = nullptr);
-        void setGrid(Grid* grid); //Does NOT link but DOES take ownership
+
         Grid* grid;
+    public:
+
+        /**
+         * @brief Constructor
+         * @param parent : parent Widget
+         * @param grid : Grid to link on and take ownership of.
+         */
+        explicit GridWidget(QWidget *parent = 0, Grid* grid = nullptr);
+
+        /**
+         * @brief Changes current linked Grid.
+         * @param grid : Grid to link on and take ownership of.
+         */
+        void setGrid(Grid* grid);
+
     signals:
 
     public slots:
+        /**
+         * @brief Regular QWidget::update() slot, without change.
+         */
         void update();
 };
 

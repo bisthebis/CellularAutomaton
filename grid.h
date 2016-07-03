@@ -3,10 +3,6 @@
   *     \author Boris Martin
   *     \brief Class handling a cellular automaton as data.
   *
-  *
-  *
-  *
-  *
   */
 
 
@@ -19,8 +15,7 @@
 class QPaintDevice;
 
 
-/**     @class Grid grid.h grid.cpp
- *      @brief The Grid class
+/**      @brief The Grid class
  *
  *
  *      Data class for managing state of a rectangular cellular automaton.
@@ -32,6 +27,8 @@ class QPaintDevice;
  *      It also provides "print" method, showing the grid using std::cout. It's main purpose is debugging
  *
  *      Can now paint itself on any QPaintDevice;
+ *
+ *      CoordType is a typedef for int.
  *
  */
 
@@ -78,17 +75,56 @@ class Grid : public QObject
          * Does nothing is out of range [0, width[ or [0, height[
          */
         void setNextValueAt(CoordType x, CoordType y, char value);
+
+        /**
+         * @brief Makes changes effective
+         *
+         * All values modified via setNextValueAt() will become current.
+         */
         void update(); //Swap current and next
 
-        void print(); //To "cout"
+        /**
+         * @brief Prints current data in the console using cout
+         *
+         * Its main purpose is debugging
+         */
+        void print();
+
+        /**
+         * @brief Paints grid data on a QPaintDevice.
+         * @param device : Device where data will be painted on
+         *
+         * Remember that for some devices, painting must be done on paintEvent()
+         */
         void paint(QPaintDevice* device);
 
+
+        /**
+         * @brief Get width of the grid.
+         * @return width of the grid
+         */
         CoordType getWidth() const {return width;}
+
+        /**
+         * @brief Get height of the grid.
+         * @return height of the grid
+         */
         CoordType getHeight() const {return height;}
+
+        /**
+         * @brief Get outOfBoundsValue, a constant fixed at construction time
+         * @return outOfBoundsValue
+         */
         char getOutOfBoundsValue() const {return outOfBoundsValue;}
 
 
-
+        /**
+         * @brief Mutate every cell with func, then update()
+         * @param func : function to call to mutate a cell.
+         *
+         * func must be a function with parameters (Grid&, CoordType, CoordType)
+         *
+         */
         template <class GridFiller> void fill(GridFiller func)  //Takes a function convertible to a std::function<void(Grid&, CoordType, CoordType)>
                                                                 //This function must update (via setNextValueAt) any cell knowing it's coord. It will be called with all possibles coords. Then, update is called.
                                                                 //It is allowed to read current state, but it's user responsibility to ensure current is valid
@@ -116,14 +152,24 @@ class Grid : public QObject
 
 
     public: //Examples filler
+
+        /**
+         * @brief Sample rule to advance Conway's Game of Life simulation.
+         * @param grid : reference to the Grid to mutate
+         * @param x : absciss of the point to mutate
+         * @param y : ordinate of the point to mutate
+         *
+         * Sample, valid parameter, for fill(). Best way to use it si via GameOfLifeStep().
+         * It requires the grid to be either 0 or 1 on every cell
+         */
         static void GameOfLifeFiller(Grid& grid, int x, int y);
 
     public slots:
 
         /**
-         * @brief Calls fill(func) with Conway's Game of Life's rule
+         * @brief Calls fill() with Conway's Game of Life's rule
          *
-         * This rule is the static public method GameOfLifeFiller
+         * This rule is the static public method GameOfLifeFiller()
          */
         void GameOfLifeStep();
 };

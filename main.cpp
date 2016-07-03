@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
 
 
-    QObject::connect(&grille, &Grid::hasChanged, &window, &GridWidget::update);
+    //QObject::connect(&grille, &Grid::hasChanged, &window, &GridWidget::update);
 
 
 
