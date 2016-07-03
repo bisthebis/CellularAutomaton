@@ -54,12 +54,23 @@ class GridWidget : public QWidget
         void setGrid(Grid* grid);
 
     signals:
+        /**
+         * @brief Forwards owned grid call to GameOfLifeStep()
+         */
+        void mustAdvanceGameOfLifeStep();
+
+        /**
+         * @brief Forwards owned gril call to SwitchActive()
+         */
+        void mustSwitchGridState();
 
     public slots:
         /**
          * @brief Regular QWidget::update() slot, without change.
          */
         void update();
+
+
 };
 
 #endif // GAMESHOWER_H

@@ -2,6 +2,8 @@
 #define MYWINDOW_H
 
 #include <QWidget>
+#include <QTimer>
+
 
 class Grid;
 
@@ -14,11 +16,17 @@ class MyWindow : public QWidget
     Q_OBJECT
 
     public:
-        explicit MyWindow(Grid*);
+        explicit MyWindow();
         ~MyWindow();
 
-    private:
+private slots:
+    void on_speedSlider_valueChanged(int value);
+
+    void on_restartButton_clicked();
+
+private:
         Ui::MyWindow *ui;
+        QTimer timer;
 };
 
 #endif // MYWINDOW_H

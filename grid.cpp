@@ -72,6 +72,13 @@ void Grid::GameOfLifeFiller(Grid& grid, int x, int y)
 
 }
 
+void Grid::RandomBinaryFiller(Grid& grid, int x, int y)
+{
+    grid.setNextValueAt(x, y, qrand()%2);
+
+
+}
+
 void Grid::GameOfLifeStep()
 {
     fill(GameOfLifeFiller);

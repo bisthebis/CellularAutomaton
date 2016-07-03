@@ -5,7 +5,6 @@
 
 #include <QtWidgets>
 #include <QApplication>
-#include <QTimer>
 #include <QTime>
 
 #include "mywindow.h"
@@ -22,30 +21,22 @@ int main(int argc, char *argv[])
     Grid& grille = *GRID_PTR;
 
 
-    GridWidget *gridShower = new GridWidget();
-    gridShower->setGrid(&grille);
-
-    MyWindow window(&grille);
+    MyWindow window;
     window.show();
 
-    auto gridRandomFiller = [&](Grid& grid, int x, int y) {
+    auto gridRandomBinaryFiller = [&](Grid& grid, int x, int y) {
         grid.setNextValueAt(x, y, qrand()%2);
 
 
     };
-    grille.fill(gridRandomFiller);
+    grille.fill(gridRandomBinaryFiller);
 
 
-    QTimer timer;
-    timer.setInterval(500);
-    QObject::connect(&timer, &QTimer::timeout, &grille, &Grid::GameOfLifeStep);
-    timer.start();
 
-
-    QPixmap exported_map(500, 500);
+    /*QPixmap exported_map(500, 500);
     QObject::connect(&grille, &Grid::hasChanged, [&](){grille.paint(&exported_map);});
 
-    QObject::connect(qApp, &QApplication::aboutToQuit, [&](){cout << "Leaving ! " << endl; exported_map.save("Grid_export.png", "PNG");});
+    QObject::connect(qApp, &QApplication::aboutToQuit, [&](){cout << "Leaving ! " << endl; exported_map.save("Grid_export.png", "PNG");});*/
 
 
 

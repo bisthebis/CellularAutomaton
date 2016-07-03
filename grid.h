@@ -174,6 +174,14 @@ class Grid : public QObject
          */
         static void GameOfLifeFiller(Grid& grid, int x, int y);
 
+        /**
+         * @brief Rule to put every cell to either 0 or 1, randomly
+         * @param grid : reference to the Grid to mutate
+         * @param x : absciss of the point to mutate
+         * @param y : ordinate of the point to mutate
+         */
+        static void RandomBinaryFiller(Grid& grid, int x, int y);
+
     public slots:
 
         /**
