@@ -19,7 +19,7 @@ MyWindow::MyWindow() :
     connect(ui->pauseButton, &QPushButton::clicked, ui->m_Grid, &GridWidget::mustSwitchGridState);
 
     timer.setInterval(50);
-    QObject::connect(&timer, &QTimer::timeout, ui->m_Grid, &GridWidget::mustAdvanceGameOfLifeStep);
+    connect(&timer, &QTimer::timeout, ui->m_Grid, &GridWidget::mustAdvanceGameOfLifeStep);
     timer.start();
 
 }
