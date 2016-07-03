@@ -103,7 +103,7 @@ class Grid : public QObject
          * @brief Is processing active ?
          * @return true if active, false otherwise.
          */
-        bool isActive();
+        bool isActive() const;
 
         /**
          * @brief Get width of the grid.
@@ -136,6 +136,9 @@ class Grid : public QObject
                                                                 //It is allowed to read current state, but it's user responsibility to ensure current is valid
         {
 
+            if (!active) //If update is disabled, do nothing
+                return;
+
             for (CoordType y = 0; y < height; ++y)
             {
                 for (CoordType x = 0; x < width; ++x)
@@ -154,6 +157,7 @@ class Grid : public QObject
         const CoordType height = 0;
         std::vector<char> current;
         std::vector<char> next;
+        bool active = true;
 
 
 
@@ -184,6 +188,11 @@ class Grid : public QObject
          * @param active : true to make it active, false to pause the process
          */
         void setActive(bool active = true);
+
+        /**
+         * @brief same as setActive(!isActive();
+         */
+        void switchActive();
 };
 
 #endif // GRID_H

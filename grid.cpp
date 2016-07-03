@@ -102,3 +102,18 @@ void Grid::paint(QPaintDevice* device)
         }
     }
 }
+
+bool Grid::isActive() const
+{
+    return active;
+}
+
+void Grid::setActive(bool active)
+{
+    this->active = active;
+}
+
+void Grid::switchActive()
+{
+    setActive(!isActive());
+}

@@ -9,6 +9,8 @@ MyWindow::MyWindow(Grid* g) :
 {
     ui->setupUi(this);
     ui->m_Grid->setGrid(g);
+
+    connect(ui->pauseButton, &QPushButton::clicked, g, &Grid::switchActive);
 }
 
 MyWindow::~MyWindow()
