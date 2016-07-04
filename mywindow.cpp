@@ -40,3 +40,8 @@ void MyWindow::on_restartButton_clicked()
     g->fill(Grid::RandomBinaryFiller);
     ui->m_Grid->setGrid(g);
 }
+
+void MyWindow::on_saveButton_clicked()
+{
+    ui->m_Grid->getCurrentGrid().saveToFile();
+}

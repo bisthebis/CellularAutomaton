@@ -109,7 +109,7 @@ class Grid : public QObject
          *
          * Remember that for some devices, painting must be done on paintEvent()
          */
-        void paint(QPaintDevice* device);
+        void paint(QPaintDevice* device) const;
 
 
         /**
@@ -214,6 +214,11 @@ class Grid : public QObject
          * @brief same as setActive(!isActive();
          */
         void switchActive();
+
+        /**
+         * @brief Saves to a PNG image named "exported.png"
+         */
+        void saveToFile() const;
 };
 
 #endif // GRID_H

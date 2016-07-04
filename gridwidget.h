@@ -53,6 +53,15 @@ class GridWidget : public QWidget
          */
         void setGrid(Grid* grid);
 
+        /**
+         * @brief Get constant reference to the current Grid
+         * @return constant reference to the owned grid.
+         * @see Grid
+         */
+        const Grid& getCurrentGrid() const {
+            return *grid;
+        }
+
     signals:
         /**
          * @brief Forwards owned grid call to GameOfLifeStep()

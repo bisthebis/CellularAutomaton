@@ -24,6 +24,8 @@ private slots:
 
     void on_restartButton_clicked();
 
+    void on_saveButton_clicked();
+
 private:
         Ui::MyWindow *ui;
         QTimer timer;

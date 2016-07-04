@@ -84,7 +84,7 @@ void Grid::GameOfLifeStep()
     fill(GameOfLifeFiller);
 }
 
-void Grid::paint(QPaintDevice* device)
+void Grid::paint(QPaintDevice* device) const
 {
     if(!device)
         return;
@@ -123,4 +123,11 @@ void Grid::setActive(bool active)
 void Grid::switchActive()
 {
     setActive(!isActive());
+}
+
+void Grid::saveToFile() const
+{
+    QPixmap pic(width, height);
+    paint(&pic);
+    pic.save("exported.png");
 }
