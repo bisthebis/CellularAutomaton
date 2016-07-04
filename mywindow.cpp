@@ -6,13 +6,15 @@
 #include <QtWidgets>
 #include <iostream>
 
+static constexpr int grid_defSize = 1000;
+
 MyWindow::MyWindow() :
     QWidget(nullptr),
     ui(new Ui::MyWindow)
 {
     ui->setupUi(this);
 
-    Grid* g = new Grid(250, 250);
+    Grid* g = new Grid(grid_defSize, grid_defSize);
     g->fill(Grid::RandomBinaryFiller);
     ui->m_GridWidget->setGrid(g);
 
@@ -36,7 +38,7 @@ void MyWindow::on_speedSlider_valueChanged(int value)
 
 void MyWindow::on_restartButton_clicked()
 {
-    Grid* g = new Grid(250, 250);
+    Grid* g = new Grid(grid_defSize, grid_defSize);
     g->fill(Grid::RandomBinaryFiller);
     ui->m_GridWidget->setGrid(g);
 }
