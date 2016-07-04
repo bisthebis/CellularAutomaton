@@ -63,14 +63,27 @@ class Grid : public QObject
          * @param x : absciss of the queried value
          * @param y : ordinate of the queried value
          * @return either current[x+y*width] or outOfBoundsValue, deepending on whether x and y are in range [0, width[ and [0, height[
+         * @see operator (), setNextValueAt
          */
         char getValueAt(CoordType x, CoordType y) const;
+
+        /**
+         * @brief Alias for getValueAt
+         * @param x : absciss of the queried value
+         * @param y : ordinate of the queried value
+         * @return either current[x+y*width] or outOfBoundsValue, deepending on whether x and y are in range [0, width[ and [0, height[
+         * @see getValueAt, setNextValueAt
+         */
+        char operator() (CoordType x, CoordType y) const {
+            return getValueAt(x, y);
+        }
 
         /**
          * @brief set next value "value" at (x, y). It will be effective when update() gets called.
          * @param x : absciss of the changed value
          * @param y : ordinate of the changed value
          * @param value : new value1
+         * @see getValueAt, update
          *
          * Does nothing is out of range [0, width[ or [0, height[
          */
